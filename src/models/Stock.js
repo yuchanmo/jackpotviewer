@@ -24,21 +24,22 @@ export class StockValue{
         this.Diff = 0.0
         let timediff = this.Today.getTime() - (new Date(this.Date)).getTime()
         this.DateDiff = (Math.ceil(timediff / (1000 * 60 * 60 * 24))-1).toString()+"일지남"; 
-        let url = `https://krxapi.azurewebsites.net/stock/${this.Code}`
+        let url = `https://jackpotapi.azurewebsites.net/current?code=${this.Code}`
+        console.log(url)
         axios.get(url).then(v=>{
-            let tmp = v.data                
-                this.CurrentValue = tmp['price']
-                this.CurrentVolume = tmp['volume']
-                this.Diff = this.CurrentValue - this.ClosePrice
+            let tmp = v.data
+            console.log(tmp)
+            this.CurrentValue = tmp['curval']
+            this.CurrentVolume = tmp['curvol']
+            this.Diff = this.CurrentValue - this.ClosePrice
         }).catch(e=>console.log(e))
-        setInterval(()=>{
-            // axios.get('https://krxapi.azurewebsites.net/stock/108860')
-            let url = `https://krxapi.azurewebsites.net/stock/${this.Code}`
-            // let url = `https://jackpotapi.azurewebsites.net/current?code=${this.Code}`
+        this.intervalId = setInterval(()=>{
+            let url = `https://jackpotapi.azurewebsites.net/current?code=${this.Code}`
             axios.get(url).then(v=>{
-                let tmp = v.data                
-                this.CurrentValue = tmp['price']
-                this.CurrentVolume = tmp['volume']
+                let tmp = v.data
+                console.log(tmp)
+                this.CurrentValue = tmp['curval']
+                this.CurrentVolume = tmp['curvol']
                 this.Diff = this.CurrentValue - this.ClosePrice
             }).catch(e=>console.log(e))
             // let config = {
@@ -78,7 +79,13 @@ export class StockValue{
             //     this.CurrentValue = parseInt(v.price)
             //     this.CurrentVolume = parseInt(v.volume)
             // }).catch(e=>console.log(e))
-        },30000);
+        },20000);
+    }
+
+    StopSetInterval(){
+        if(this.intervalId!=null && this.intervalId!=undefined)
+            console.log(`clear set interval ${this.intervalId}`);
+            clearInterval(this.intervalId);
     }
     
     get IsUp(){
