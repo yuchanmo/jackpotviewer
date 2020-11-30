@@ -68,6 +68,10 @@ request.get('http://finance.daum.net/quotes/A004840', function(err, res, body) {
 // }
 // }
 
+let t = 1600041600000
+new Date(t)
+
+
 let config = {
 'headers':{
 'Host': 'finance.daum.net',

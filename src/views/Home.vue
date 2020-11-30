@@ -59,8 +59,17 @@
   </div>
 </v-col>
     </v-row>
-    <v-row>
+    <v-row  align='center'
+      justify='center'>
+        <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+     
+      v-show="loadingStatus"
+    ></v-progress-circular>
 <DxDataGrid
+v-show="!loadingStatus"
     :data-source="dataSource"
     :repaint-changes-only="true"    
     :allow-column-reordering="true"
@@ -68,6 +77,7 @@
     :show-borders="true"
     @content-ready="onContentReady"
   >
+  <DxLoadingIndicator :enabled="loadingStatus"></DxLoadingIndicator>
    <!-- <DxFilterRow
         :visible="showFilterRow"
         :apply-filter="true"
@@ -193,9 +203,12 @@ import {
   DxGrouping,
   DxGroupPanel,  
   DxHeaderFilter,  
-  DxFilterRow
+  DxFilterRow, 
   
 } from 'devextreme-vue/data-grid';
+import {
+    DxLoadingIndicator
+} from 'devextreme-vue/chart';
 // import DataSource from 'devextreme/data/data_source';
 import 'devextreme/data/odata/store';
 
@@ -227,13 +240,17 @@ export default {
     DxColumn,
     DxGrouping,
     DxGroupPanel, 
-    DxHeaderFilter,  
+    DxHeaderFilter,
+    DxLoadingIndicator,  
   DxFilterRow   
     
   },
   computed:{
     dataSource(){
       return this.$store.state.pricedata
+    },
+    loadingStatus(){
+      return this.$store.state.loadingstate
     }
   },
   data(){

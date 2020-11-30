@@ -10,7 +10,7 @@ export class StockValue{
         this.Code = v['Code']
         this.DaumCode = v['DaumCode']
         this.Url = v['Url']
-        this.Date = v['Date']
+        this.Date =  new Date(v['Date'])
         this.rank = v['rank']
         this.TradePrice = v['TradePrice']
         this.ClosePrice = v['ClosePrice']
