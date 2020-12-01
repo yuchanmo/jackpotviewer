@@ -24,24 +24,25 @@ export class StockValue{
         this.Diff = 0.0
         let timediff = this.Today.getTime() - (new Date(this.Date)).getTime()
         this.DateDiff = (Math.ceil(timediff / (1000 * 60 * 60 * 24))-1).toString()+"일지남"; 
-        let url = `https://jackpotapi.azurewebsites.net/current?code=${this.Code}`
-        console.log(url)
-        axios.get(url).then(v=>{
-            let tmp = v.data
-            console.log(tmp)
-            this.CurrentValue = tmp['curval']
-            this.CurrentVolume = tmp['curvol']
-            this.Diff = this.CurrentValue - this.ClosePrice
-        }).catch(e=>console.log(e))
+        //let url = `https://jackpotapi.azurewebsites.net/current?code=${this.Code}`
+        //console.log(url)
+        // axios.get(url).then(v=>{
+        //     let tmp = v.data
+        //     console.log(tmp)
+        //     this.CurrentValue = tmp['curval']
+        //     this.CurrentVolume = tmp['curvol']
+        //     this.Diff = this.CurrentValue - this.ClosePrice
+        // }).catch(e=>console.log(e))
         this.intervalId = setInterval(()=>{
-            let url = `https://jackpotapi.azurewebsites.net/current?code=${this.Code}`
+            let url = `http://114.203.39.76:9999/api/CurrentValue?code=${this.Code}`
             axios.get(url).then(v=>{
                 let tmp = v.data
-                console.log(tmp)
+                //console.log(tmp)
                 this.CurrentValue = tmp['curval']
                 this.CurrentVolume = tmp['curvol']
                 this.Diff = this.CurrentValue - this.ClosePrice
             }).catch(e=>console.log(e))
+        },10000)
             // let config = {
             //     'headers':{
             //     'Host': 'finance.daum.net',
@@ -55,31 +56,31 @@ export class StockValue{
             //     }
             // }  
         
-            // let url = 'http://finance.daum.net/api/quote/{code}/sectors'
-            // let t = config['headers']['Referer']    
-            // config['headers']['Referer'] = t.replace('{code}',this.DaumCode)
-            // url = url.replace('{code}',this.DaumCode)
-            // axios.get(url,config).then(v=>{
-            // let d = v.data    
-            // this.CurrentValue = d['data'][0]['tradePrice']
-            // this.Diff = parseFloat(this.CurrentValue) - parseFloat(this.ClosePrice)
-            // console.log(this.Name,this.CurrentValue,this.ClosePrice,this.Diff)
-            // }).catch(e=>alert(e))
-            // let url ='http://asp1.krx.co.kr/servlet/krx.asp.XMLSise?code={code}'
-            // url = url.replace('{code}',this.Code)
-            // console.log(url)
-            // axios.get(url).then(v=>{
-            //     console.log(v.data)
-            //     var $ = c.load(v.data)
-            //     var t = $('TBL_StockInfo').eq(0)[0]['attribs']
-            //     this.CurrentValue = parseInt(t['curjuka'])
-            //     this.CurrentVolume = parseInt(t['volume'])
-            // }).catch(e=>console.log(e))
-            // krx.getStock(this.Code).then(v=>{
-            //     this.CurrentValue = parseInt(v.price)
-            //     this.CurrentVolume = parseInt(v.volume)
-            // }).catch(e=>console.log(e))
-        },20000);
+        //     // let url = 'http://finance.daum.net/api/quote/{code}/sectors'
+        //     // let t = config['headers']['Referer']    
+        //     // config['headers']['Referer'] = t.replace('{code}',this.DaumCode)
+        //     // url = url.replace('{code}',this.DaumCode)
+        //     // axios.get(url,config).then(v=>{
+        //     // let d = v.data    
+        //     // this.CurrentValue = d['data'][0]['tradePrice']
+        //     // this.Diff = parseFloat(this.CurrentValue) - parseFloat(this.ClosePrice)
+        //     // console.log(this.Name,this.CurrentValue,this.ClosePrice,this.Diff)
+        //     // }).catch(e=>alert(e))
+        //     // let url ='http://asp1.krx.co.kr/servlet/krx.asp.XMLSise?code={code}'
+        //     // url = url.replace('{code}',this.Code)
+        //     // console.log(url)
+        //     // axios.get(url).then(v=>{
+        //     //     console.log(v.data)
+        //     //     var $ = c.load(v.data)
+        //     //     var t = $('TBL_StockInfo').eq(0)[0]['attribs']
+        //     //     this.CurrentValue = parseInt(t['curjuka'])
+        //     //     this.CurrentVolume = parseInt(t['volume'])
+        //     // }).catch(e=>console.log(e))
+        //     // krx.getStock(this.Code).then(v=>{
+        //     //     this.CurrentValue = parseInt(v.price)
+        //     //     this.CurrentVolume = parseInt(v.volume)
+        //     // }).catch(e=>console.log(e))
+        // });
     }
 
     StopSetInterval(){
@@ -98,7 +99,6 @@ export class StockValue{
         return per
     }
     
-
-   
+       
 }
 
