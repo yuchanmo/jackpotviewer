@@ -1,14 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import ItemList from '../views/ItemList.vue'
+import Trend from '../views/Trend.vue'
+import Summary from '../views/Summary.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/list',
+    name: 'List',
+    component: ItemList
+  },
+  {
+    path: '/trend',
+    name: 'Trend',
+    component: Trend
+  },
+  {
+    path : '/',
+    name : 'Summary',
+    component:Summary
+
   },
   {
     path: '/about',

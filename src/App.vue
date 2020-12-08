@@ -6,14 +6,30 @@
       clipped
     >
       <v-list dense>
-        <v-list-item link :to='homelink'>
+      <v-list-item link :to='summarylink'>
           <v-list-item-action>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>HOME</v-list-item-title>
-          </v-list-item-content>
+            <v-list-item-title>속보</v-list-item-title>
+          </v-list-item-content>          
         </v-list-item>
+        <v-list-item link :to='listlink'>
+          <v-list-item-action>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>ITEM LIST</v-list-item-title>
+          </v-list-item-content>          
+        </v-list-item>
+        <!-- <v-list-item link :to='trendlink'>
+          <v-list-item-action>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>ITEM LIST with Trend</v-list-item-title>
+          </v-list-item-content>          
+        </v-list-item> -->
         <!-- <v-list-item link>
           <v-list-item-action>
             <v-icon>mdi-cog</v-icon>
@@ -58,7 +74,9 @@
 
     data: () => ({
       drawer: null,
-      homelink : '/',
+      summarylink : '/',
+      listlink : '/list',
+      trendlink : '/trend',
     }),
 
     created () {

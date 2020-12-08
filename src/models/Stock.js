@@ -23,72 +23,106 @@ export class StockValue{
         this.iterCount = 0
         this.Diff = 0.0
         let timediff = this.Today.getTime() - (new Date(this.Date)).getTime()
-        this.DateDiff = (Math.ceil(timediff / (1000 * 60 * 60 * 24))-1).toString()+"일지남"; 
-        //let url = `https://jackpotapi.azurewebsites.net/current?code=${this.Code}`
-        //console.log(url)
-        // axios.get(url).then(v=>{
-        //     let tmp = v.data
-        //     console.log(tmp)
-        //     this.CurrentValue = tmp['curval']
-        //     this.CurrentVolume = tmp['curvol']
-        //     this.Diff = this.CurrentValue - this.ClosePrice
-        // }).catch(e=>console.log(e))
+        this.DateDiff = (Math.ceil(timediff / (1000 * 60 * 60 * 24))-1).toString()+"일지남"
+        
+        this.chartLegend=[
+            // { value: 'curval', name: '현재가격' },
+            { value: 'diffval', name: '이전가격과 차이' },
+            //{ value: 'diffhighval', name: '고가와차이' },
+            //{ value: 'difflowval', name: '저가와차이' },
+        ]
+        
+        // this.chartintervalId = setInterval(()=>{
+        //     let url = `http://114.203.39.76:9999/api/CurrentChart?code=${this.Code}&duration=1`
+        //     axios.get(url).then(v=>{     
+        //         this.ChartSource = {code:'',name:'',legends:[],trends:[]}           
+        //         this.ChartSource = {
+        //             code : this.Code
+        //             ,name : this.Name
+        //             ,legends : this.chartLegend
+        //             ,trends : v.data
+        //         }  
+        //         console.log(this.ChartSource)              
+        //     }).catch(e=>console.log(e))
+        // },20000)
+
         this.intervalId = setInterval(()=>{
             let url = `http://114.203.39.76:9999/api/CurrentValue?code=${this.Code}`
             axios.get(url).then(v=>{
                 let tmp = v.data
-                //console.log(tmp)
+                
                 this.CurrentValue = tmp['curval']
                 this.CurrentVolume = tmp['curvol']
                 this.Diff = this.CurrentValue - this.ClosePrice
             }).catch(e=>console.log(e))
         },10000)
-            // let config = {
-            //     'headers':{
-            //     'Host': 'finance.daum.net',
-            //     'Connection': 'keep-alive',
-            //     'Accept': 'application/json, text/javascript, */*; q=0.01',
-            //     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
-            //     'X-Requested-With': 'XMLHttpRequest',
-            //     'Referer': 'http://finance.daum.net/quotes/{code}',
-            //     'Accept-Encoding': 'gzip, deflate',
-            //     'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',                
-            //     }
-            // }  
-        
-        //     // let url = 'http://finance.daum.net/api/quote/{code}/sectors'
-        //     // let t = config['headers']['Referer']    
-        //     // config['headers']['Referer'] = t.replace('{code}',this.DaumCode)
-        //     // url = url.replace('{code}',this.DaumCode)
-        //     // axios.get(url,config).then(v=>{
-        //     // let d = v.data    
-        //     // this.CurrentValue = d['data'][0]['tradePrice']
-        //     // this.Diff = parseFloat(this.CurrentValue) - parseFloat(this.ClosePrice)
-        //     // console.log(this.Name,this.CurrentValue,this.ClosePrice,this.Diff)
-        //     // }).catch(e=>alert(e))
-        //     // let url ='http://asp1.krx.co.kr/servlet/krx.asp.XMLSise?code={code}'
-        //     // url = url.replace('{code}',this.Code)
-        //     // console.log(url)
-        //     // axios.get(url).then(v=>{
-        //     //     console.log(v.data)
-        //     //     var $ = c.load(v.data)
-        //     //     var t = $('TBL_StockInfo').eq(0)[0]['attribs']
-        //     //     this.CurrentValue = parseInt(t['curjuka'])
-        //     //     this.CurrentVolume = parseInt(t['volume'])
-        //     // }).catch(e=>console.log(e))
-        //     // krx.getStock(this.Code).then(v=>{
-        //     //     this.CurrentValue = parseInt(v.price)
-        //     //     this.CurrentVolume = parseInt(v.volume)
-        //     // }).catch(e=>console.log(e))
-        // });
+            
     }
 
     StopSetInterval(){
         if(this.intervalId!=null && this.intervalId!=undefined)
             console.log(`clear set interval ${this.intervalId}`);
             clearInterval(this.intervalId);
+            clearInterval(this.chartintervalId);
     }
     
+    setChartValue(){
+        this.ChartSource = {
+            legends:[
+            { value: 'hydro', name: 'Hydro-electric' },
+            // { value: 'oil', name: 'Oil' },
+            // { value: 'gas', name: 'Natural gas' },
+            // { value: 'coal', name: 'Coal' },
+            // { value: 'nuclear', name: 'Nuclear' }
+            ],
+            values:
+            [{
+        country: 'USA',
+        hydro: 59.8,
+        oil: 937.6,
+        gas: 582,
+        coal: 564.3,
+        nuclear: 187.9
+      }, {
+        country: 'China',
+        hydro: 74.2,
+        oil: 308.6,
+        gas: 35.1,
+        coal: 956.9,
+        nuclear: 11.3
+      }, {
+        country: 'Russia',
+        hydro: 40,
+        oil: 128.5,
+        gas: 361.8,
+        coal: 105,
+        nuclear: 32.4
+      }, {
+        country: 'Japan',
+        hydro: 22.6,
+        oil: 241.5,
+        gas: 64.9,
+        coal: 120.8,
+        nuclear: 64.8
+      }, {
+        country: 'India',
+        hydro: 19,
+        oil: 119.3,
+        gas: 28.9,
+        coal: 204.8,
+        nuclear: 3.8
+      }, {
+        country: 'Germany',
+        hydro: 6.1,
+        oil: 123.6,
+        gas: 77.3,
+        coal: 85.7,
+        nuclear: 37.8
+      }]
+    }
+    }
+
+
     get IsUp(){
         return this.Diff>0
     }

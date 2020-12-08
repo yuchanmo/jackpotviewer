@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
     <v-col cols="12" sm="5" md="5">
       <v-menu
@@ -155,13 +155,13 @@ v-show="!loadingStatus"
       data-field="ClosePrice"
       caption="추출일종가"      
       alignment="center"
-    />
+    />    
     <DxColumn
       data-field="Url"
       caption="NAVER증권"      
       alignment="center"
       cell-template="cellTemplate"
-    />
+    />    
     <template #cellTemplate="{data}">
       <a :href="data.value" target="_blank">GO</a>
     </template>
@@ -169,17 +169,9 @@ v-show="!loadingStatus"
       <div :class="{up:data.value>0,down:data.value<0}">{{data.value}}%</div>
     </template>
 
-    <DxGroupPanel :visible="true"/>
-    <!-- <DxSearchPanel
-      :visible="true"
-      :highlight-case-sensitive="true"
-    /> -->
+    <DxGroupPanel :visible="true"/>    
     <DxGrouping :auto-expand-all="true"/>
-    <!-- <DxPager
-      :allowed-page-sizes="pageSizes"
-      :show-page-size-selector="true"
-    /> -->
-    <!-- <DxPaging :page-size="10"/> -->
+    
      <DxFilterRow
         :visible="true"        
       />
@@ -203,9 +195,12 @@ import {
   DxGrouping,
   DxGroupPanel,  
   DxHeaderFilter,  
-  DxFilterRow, 
+  DxFilterRow,  
   
 } from 'devextreme-vue/data-grid';
+
+
+
 import {
     DxLoadingIndicator
 } from 'devextreme-vue/chart';
@@ -242,7 +237,8 @@ export default {
     DxGroupPanel, 
     DxHeaderFilter,
     DxLoadingIndicator,  
-  DxFilterRow   
+  DxFilterRow  ,
+  
     
   },
   computed:{
@@ -268,7 +264,8 @@ export default {
           e.component.expandRow(['EnviroCare']);
           collapsed = true;
         }
-      }
+      } ,
+      
     }
   },
   mounted(){      
