@@ -13,6 +13,7 @@
     "cheerio-httpcli": "^0.8.1",
     "core-js": "^3.6.5",
     "devextreme": "20.1.7",
+    "devextreme-aspnet-data-nojquery": "2.8.0",
     "devextreme-vue": "20.1.7",
     "krx-stock-api": "^1.0.0",
     "request": "^2.88.2",

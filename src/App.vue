@@ -48,18 +48,13 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>RAUMKOONG</v-toolbar-title>
     </v-app-bar>
-
-    <v-main>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        
-          <router-view></router-view>
-        
-      </v-container>
-    </v-main>
-
+    <v-container fluid>
+    <v-row align="start">
+      <v-main align="start">        
+            <router-view></router-view>
+      </v-main>
+    </v-row>  
+    </v-container>
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>

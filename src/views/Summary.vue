@@ -1,6 +1,7 @@
 <template>
-    <v-container fluid>
-    <v-row>   
+    <v-container fluid > 
+    
+    <v-row align="start">   
         <v-col cols="12" sm="6" md="6">
             <div class="my-2">
             <v-text-field
@@ -10,175 +11,84 @@
             </div>
         </v-col>
     </v-row>
-    <v-row  align='center'
-      justify='center'>
+    <v-row class="{height:800px}">
+    
+    </v-row>
+    <v-row align="start">
         <v-progress-circular
       :size="50"
       color="primary"
-      indeterminate
-     
+      indeterminate     
       v-show="loadingStatus"
     ></v-progress-circular>
-<DxDataGrid
-v-show="!loadingStatus"
-    :data-source="dataSource"
-    :repaint-changes-only="true"    
-    :allow-column-reordering="true"
-    :row-alternation-enabled="true"
-    :show-borders="true"
-    @content-ready="onContentReady"
-  >
-  <DxLoadingIndicator :enabled="loadingStatus"></DxLoadingIndicator>
-   <!-- <DxFilterRow
-        :visible="showFilterRow"
-        :apply-filter="true"
-      /> -->
-      <DxHeaderFilter
-        :visible="showHeaderFilter"
-      />
-   <DxColumn          
-      data-field="Regdate"
-      :width=150
-    />
-    <DxColumn          
-      data-field="name"
-      :width=100
-    />  
-    <DxColumn
-      data-field="Url"
-      caption="NAVER증권"      
-      alignment="center"
-      cell-template="cellTemplate"
-      :width=50
-    />  
-    <DxColumn          
-      data-field="startval"
-      caption="시작가"
-      :width=100
-    />  
-    <DxColumn          
-      data-field="curval"
-      caption="현재가"
-      :width=100
-    />  
-     <DxColumn          
-      data-field="curval_1diff"
-      caption="직전가격차(%)"
-      cell-template="diffCellTemplate"
-      :width=100
-    />  
-      <DxColumn          
-      data-field="startval_curval_diff"
-      caption="시작가격차(%)"
-      cell-template="diffCellTemplate"
-      :width=100
-    />  
-    <DxColumn          
-      data-field="curvol"
-      caption="물량"
-      :width=100
-    />  
-    
-    <!-- <DxColumn          
-      data-field="curval_3diff"
-      caption="3직전가격차(%)"
-      :width=50
-    />   -->
-     <DxColumn          
-      data-field="curvol_1diff"
-      caption="직전물량차(%)"
-      cell-template="diffCellTemplate"
-      :width=100
-    />      
-  
-    <DxColumn          
-      data-field="startvol_curvol_diff"
-      caption="시작물량차(%)"
-      cell-template="diffCellTemplate"
-      :width=100
-    />  
-     <DxColumn          
-      data-field="val_infle"
-      caption="가격변곡점?"
-      cell-template="infCellTemplate"
-      :width=90
-    />  
-    <DxColumn          
-      data-field="vol_infle"
-      caption="물량변곡점?"
-      cell-template="infCellTemplate"
-      :width=90
-    />  
-    <DxColumn          
-      data-field="minmax"
-      caption="최근3저점고점?"
-      :width=100
-    />  
-    
-    <template #diffCellTemplate="{data}">
-      <div :class="{up:data.value>0,down:data.value<0}">{{data.value.toFixed(1)}}%</div>
-    </template>
+    <v-row>
+   <v-tabs m6
+          v-model="tab"
+          align-with-title
+          align="start"
+        >
+          <v-tabs-slider color="yellow"></v-tabs-slider>
 
-    <template #infCellTemplate="{data}">
-      <div :class="{up:data.value==1,down:data.value==0}">{{data.value}}</div>
-    </template>
-      
-
-    <template #cellTemplate="{data}">
-      <a :href="data.value" target="_blank">GO</a>
-    </template>
-
-       
-    <DxGroupPanel :visible="true"/>    
-    <DxGrouping :auto-expand-all="true"/>
-    
-     <DxFilterRow
-        :visible="true"        
-      />
-      <DxHeaderFilter
-        :visible="true"
-      />
-  </DxDataGrid>
-    </v-row>
+          <v-tab
+            v-for="item in tabs"
+            :key="item"
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+      <v-row class="pa-md-10" align="start">
+        <SummaryCount v-show="tab===1"        
+        :interval="interval"
+        :loadingStatus="loadingStatus"/>
+        <SummaryGrid v-show="tab===0"
+        :dataSource="dataSource" 
+        :loadingStatus="loadingStatus"/>
+        <CurrentChart v-show="tab===2"
+        
+         :min="interval"></CurrentChart>
+      </v-row>
+  </v-row>
+  </v-row>
   </v-container>
 </template>
 <script>
-import {
-  DxDataGrid,
-  DxColumn,
-  DxGrouping,
-  DxGroupPanel,  
-  DxHeaderFilter,  
-  DxFilterRow,    
-} from 'devextreme-vue/data-grid'
-
+import SummaryGrid from '../components/SummaryGrid';
+//import SummaryPivotGrid from '../components/SummaryPivotGrid';
+import SummaryCount from '../components/SummaryCount';
+import CurrentChart from '../components/CurrentChart';
 
 import axios from 'axios'
 
 export default {
-    components:{
-        DxDataGrid,
-        DxColumn,
-        DxGrouping,
-        DxGroupPanel, 
-        DxHeaderFilter,    
-        DxFilterRow ,
+    components:{    
+      SummaryGrid,  
+      CurrentChart,
+  //    SummaryPivotGrid,    
+        SummaryCount,
+    
     },
-    mounted(){
-        this.intervalId = setInterval(()=>{
-            try {
+    methods:{
+      loadData(){
+      try {
+                  //this.dataSource = []
                     this.loadingStatus = true            
                     console.log('LoadData')
-                    var url = `http://114.203.39.76:9999/api/Jackpot?min=${this.interval}`
+                    var url = `http://114.203.39.76:8888/api/Jackpot?min=${this.interval}`
                     console.log(url)
                     axios.get(url).then((res)=>this.dataSource =res.data)
-                    this.loadingStatus = false
+                    this.loadingStatus = false                    
              } catch (error) {
                 this.dataSource = []
                 this.loadingStatus = false
                 console.log(error)
              }
-        },5000)
+      }
+    },
+    mounted(){
+      this.loadData();
+        this.intervalId = setInterval(()=>{
+            this.loadData();
+        },10000)
     },
     unmounted(){
         if(this.intervalId!==null && this.intervalId!==undefined)
@@ -187,16 +97,14 @@ export default {
     data(){
         return {
             dataSource:[],
-            interval:30,
+            interval:15,
             loadingStatus:false,
+            selectedIndex:0,
+            tab:'',
+            tabs:["Grid","Pivot","Chart"]
         }
     },
-    methods:{
-         getSummaryData(){
-             
-
-        }
-    }
+    
 }
 </script>
 <style>
