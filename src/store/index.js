@@ -25,7 +25,7 @@ export default new Vuex.Store({
         console.log(from)
         console.log(to)
         //let url =`http://mojjijji.iptime.org:9898/api/DailyList?from=${from}&to=${to}`
-        let url =`http://114.203.39.76:9999/api/DailyList?from=${from}&to=${to}`
+        let url =`http://mojjijji.iptime.org:8888/api/DailyList?from=${from}&to=${to}`
         //let url = `https://jackpotapi.azurewebsites.net/dailylist?from=${from}&to=${to}`
         //let url = `http://127.0.0.1:5000/dailylist?from=${from}&to=${to}`
         console.log(url)

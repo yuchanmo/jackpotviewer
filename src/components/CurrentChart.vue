@@ -69,7 +69,7 @@ export default {
   DxTooltip
 
     },
-    props:['min'],
+    props:['min','tabnum'],
     data(){
         return{
             name:'',
@@ -86,9 +86,9 @@ export default {
     methods:{
         loadData(){
             try {                
-                if(this.code!==undefined && this.code!==null){                  
+                if(this.code!==undefined && this.code!==null && this.tabnum==1){                  
                     this.loadingStatus = true                                
-                    var url = `http://114.203.39.76:8888/api/ChartData?min=${this.min}&code=${this.code}`                    
+                    var url = `http://mojjijji.iptime.org:8888/api/ChartData?min=${this.min}&code=${this.code}`                    
                     axios.get(url).then((res)=>this.chartSource =res.data)                    
                     console.log(this.chartSource)
                 }                  

@@ -82,7 +82,7 @@ export default {
                   //this.dataSource = []
                     this.loadingStatus = true            
                     console.log('LoadData')
-                    var url = `http://114.203.39.76:8888/api/JackpotCount?min=${this.interval}`
+                    var url = `http://mojjijji.iptime.org:8888/api/JackpotCount?min=${this.interval}`
                     console.log(url)
                     axios.get(url).then((res)=>this.dataSource =res.data)
                     this.loadingStatus = false                    

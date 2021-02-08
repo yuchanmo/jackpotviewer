@@ -47,7 +47,7 @@ export class StockValue{
         // },20000)
 
         this.intervalId = setInterval(()=>{
-            let url = `http://114.203.39.76:8888/api/CurrentValue?code=${this.Code}`
+            let url = `http://mojjijji.iptime.org:8888/api/CurrentValue?code=${this.Code}`
             axios.get(url).then(v=>{
                 let tmp = v.data
                 

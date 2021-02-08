@@ -37,14 +37,12 @@
           </v-tab>
         </v-tabs>
       <v-row class="pa-md-10" align="start">
-        <SummaryCount v-show="tab===1"        
-        :interval="interval"
-        :loadingStatus="loadingStatus"/>
+      
         <SummaryGrid v-show="tab===0"
         :dataSource="dataSource" 
         :loadingStatus="loadingStatus"/>
-        <CurrentChart v-show="tab===2"
-        
+        <CurrentChart v-show="tab===1"
+        :tabnum='tab'
          :min="interval"></CurrentChart>
       </v-row>
   </v-row>
@@ -54,7 +52,7 @@
 <script>
 import SummaryGrid from '../components/SummaryGrid';
 //import SummaryPivotGrid from '../components/SummaryPivotGrid';
-import SummaryCount from '../components/SummaryCount';
+// import SummaryCount from '../components/SummaryCount';
 import CurrentChart from '../components/CurrentChart';
 
 import axios from 'axios'
@@ -64,7 +62,7 @@ export default {
       SummaryGrid,  
       CurrentChart,
   //    SummaryPivotGrid,    
-        SummaryCount,
+        // SummaryCount,
     
     },
     methods:{
@@ -73,7 +71,7 @@ export default {
                   //this.dataSource = []
                     this.loadingStatus = true            
                     console.log('LoadData')
-                    var url = `http://114.203.39.76:8888/api/Jackpot?min=${this.interval}`
+                    var url = `http://mojjijji.iptime.org:8888/api/Jackpot?min=${this.interval}`
                     console.log(url)
                     axios.get(url).then((res)=>this.dataSource =res.data)
                     this.loadingStatus = false                    
@@ -85,6 +83,9 @@ export default {
       }
     },
     mounted(){
+      this.$EventBus.$on('changeTab',(tabnum)=>{
+        console.log(tabnum);
+        this.tab=tabnum;})
       this.loadData();
         this.intervalId = setInterval(()=>{
             this.loadData();
@@ -97,14 +98,14 @@ export default {
     data(){
         return {
             dataSource:[],
-            interval:15,
+            interval:30,
             loadingStatus:false,
             selectedIndex:0,
             tab:'',
-            tabs:["Grid","Pivot","Chart"]
+            tabs:["Grid","Chart"]
         }
     },
-    
+        
 }
 </script>
 <style>

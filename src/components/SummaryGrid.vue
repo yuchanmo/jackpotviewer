@@ -28,7 +28,25 @@
     <DxColumn          
       data-field="name"
       :width=100
-    />  
+    /> 
+     <DxColumn          
+      data-field="cnt"
+      :width=90
+      sort-order="desc"
+      caption="횟수"
+    /> 
+     <DxColumn          
+      data-field="revert_trend"
+      caption="반전"
+      :width=90
+      sort-order="desc"
+    /> 
+
+     <DxColumn          
+      data-field="cate"
+      :width=50
+      
+    /> 
     <DxColumn
       data-field="Url"
       caption="NAVER증권"      
@@ -158,6 +176,9 @@ export default {
         DxScrolling
 
     },
+    mounted(){
+      
+    },
     props:[
         'dataSource','loadingStatus'
     ],
@@ -174,12 +195,14 @@ export default {
       if(this.selectedData === data){
         this.selectedData = null;
         this.$EventBus.$emit('changeCode',null);
+        this.$EventBUs.$emit('changeTab',0)
       }
       
       else{
         this.selectedData = data;      
       
         this.$EventBus.$emit('changeCode',{code:data.code,name:data.name});
+        this.$EventBUs.$emit('changeTab',1)
       }
       
       
