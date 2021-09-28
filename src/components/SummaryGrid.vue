@@ -82,6 +82,7 @@
       data-field="curvol"
       caption="물량"
       :width=100
+      sort-order="desc"
     />  
     
     <!-- <DxColumn          
